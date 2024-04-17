@@ -12,4 +12,10 @@ export default defineConfig({
     // necessary for segment analytics lib to work
     global: {},
   },
+  resolve: {
+    alias: {
+      // added for AWS-SDK with vite
+      "./runtimeConfig": "./runtimeConfig.browser"
+    },
+  },
 });
