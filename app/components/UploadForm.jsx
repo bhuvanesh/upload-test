@@ -18,43 +18,28 @@ export default function UploadForm() {
   // console.log(matches)
   const { ENV } =
     matches.find((route) => route.id === "routes/upload")?.data || {};
-  console.log("Inside upload form......");
-  console.log(ENV);
-  const [fileInputValue, setFileInputValue] = useState("");
 
-  //   const  handleUpload = async (e)=>{
-  //         console.log('inside handleupload')
-  //         console.log(e.target, 8999)
-  //         const file = e.target
-  //         console.log(file)
+  const [fileInput, setFileInput] = useState("");
 
-  //         const arrayBuffer = await file.arrayBuffer();
-  //         const buffer = Buffer.from(arrayBuffer);
-  // const filePath = `112233_${file.name}`; // Include projectid in the filename
-  //         // const objectUrl = await uploadFileToS3(buffer, filePath);
-  //   }
+  const handleFileChange = (e) =>{
+    if (e.target.files) {
+        setFileInput(e.target.files[0]);
+      }
+  }
 
   const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    console.log(file);
+    // const file = event.target.files[0];
+    // console.log(file);
     const formData = new FormData();
-    formData.append("file", file);
-    const filePath = `112233_${file.name}`; // Include projectid in the filename
+    formData.append("file", fileInput);
+    const filePath = `112233_${fileInput.name}`; // Include projectid in the filename
 
     try {
-      //   const response = await axios.post('/api/enhance-image', formData);
-      // const objectUrl = await uploadFileToS3(formData, filePath, ENV);
-    //   const objectUrl = await createPresignedUrlWithClient({
-    //     region: ENV.REGION,
-    //     bucket: ENV.BUCKET_NAME,
-    //     key: "testfile009",
-    //     accessKeyId: ENV.ACCESS_KEY_ID,
-    //     secretAccessKey: ENV.SECRET_ACCESS_KEY,
-    //   });
+
       const objectUrl = await uploadS3new(formData, filePath, ENV);
 
       // Handle the enhanced image response here
-      console.log("Enhanced image:", file.name, objectUrl);
+      console.log("Uploaded File:", fileInput.name, objectUrl);
       // Update state or display the enhanced image
     } catch (error) {
       console.error("Error enhancing image:", error);
@@ -74,19 +59,19 @@ export default function UploadForm() {
             name="file"
             accept="application/pdf"
             className="mb-4"
-            value={fileInputValue}
-            onChange={handleFileUpload}
+            // value={fileInput}
+            onChange={handleFileChange}
           />
           <button
             type="button"
             name="_action"
             value="upload"
             disabled={transition.state === "submitting"}
-            // onClick={handleUpload}
+            onClick={handleFileUpload}
           >
             Upload
           </button>
-          <button type="submit">submit</button>
+          {/* <button type="submit">submit</button> */}
         </Form>
       </div>
     </div>
