@@ -35,7 +35,7 @@ const createPresignedUrlWithClient = ({ client, command}) => {
     }catch(err){
         console.log(err, response)
     }finally{
-        const objectUrl = `https://${ENV.BUCKET_NAME}.s3.${ENV.REGION}.amazonaws.com/${ENV.filePath}`;
+        const objectUrl = `https://${ENV.BUCKET_NAME}.s3.${ENV.REGION}.amazonaws.com/${filename}`;
         return objectUrl;
     }
     // return presignUrl
