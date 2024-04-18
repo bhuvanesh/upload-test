@@ -10,7 +10,7 @@ import {
 } from "@remix-run/react";
 import { useState } from "react";
 import { uploadFileToS3 } from "../utils/s3-utils";
-
+import { uploadS3new } from "../utils/s3-utils-v3";
 
 export default function UploadForm() {
   const transition = useNavigation();
@@ -43,7 +43,16 @@ export default function UploadForm() {
 
     try {
       //   const response = await axios.post('/api/enhance-image', formData);
-        const objectUrl = await uploadFileToS3(formData, filePath, ENV);
+      // const objectUrl = await uploadFileToS3(formData, filePath, ENV);
+    //   const objectUrl = await createPresignedUrlWithClient({
+    //     region: ENV.REGION,
+    //     bucket: ENV.BUCKET_NAME,
+    //     key: "testfile009",
+    //     accessKeyId: ENV.ACCESS_KEY_ID,
+    //     secretAccessKey: ENV.SECRET_ACCESS_KEY,
+    //   });
+      const objectUrl = await uploadS3new(formData, filePath, ENV);
+
       // Handle the enhanced image response here
       console.log("Enhanced image:", file.name, objectUrl);
       // Update state or display the enhanced image
